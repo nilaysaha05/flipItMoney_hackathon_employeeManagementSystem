@@ -27,6 +27,7 @@ class _FormPageState extends State<FormPage> {
     super.initState();
     getJoke();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -55,9 +56,7 @@ class _FormPageState extends State<FormPage> {
     photoUrl = Helpers.randomPictureUrl();
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text('Add Employee Data'),
-        ),
+        title: const Text('Add Employee Data'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -86,7 +85,7 @@ class _FormPageState extends State<FormPage> {
                         onPressed: () {
                           final id = Helpers.generateRandomString(6);
 
-                          _jobIdController.text=id;
+                          _jobIdController.text = id;
                         },
                         child: const Text('Get Id'),
                       ),
@@ -152,20 +151,32 @@ class _FormPageState extends State<FormPage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(elevation: 0.0),
                       onPressed: () {
-                        _createEmp({
-                          'jobId': _jobIdController.text,
-                          'name': _nameController.text,
-                          'address': _addressController.text,
-                          'dept': _deptController.text,
-                          'bioJoke': jokes,
-                          'salary': _salaryController.text,
-                          'photoUrl': photoUrl,
-                        });
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
-                        );
+                        if (_jobIdController.text != '' &&
+                            _nameController.text != '' &&
+                            _addressController.text != '' &&
+                            _deptController.text != '' &&
+                            _salaryController.text != '' &&
+                            photoUrl != '' &&
+                            jokes != '') {
+                          _createEmp({
+                            'jobId': _jobIdController.text,
+                            'name': _nameController.text,
+                            'address': _addressController.text,
+                            'dept': _deptController.text,
+                            'bioJoke': jokes,
+                            'salary': _salaryController.text,
+                            'photoUrl': photoUrl,
+                          });
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                          );
+                        } else {
+                          Helpers().showSnackBar(
+                              'All fields are required..', context);
+                          return;
+                        }
                       },
                       child: const Text('Save Data'),
                     ),

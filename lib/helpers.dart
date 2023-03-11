@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Helpers {
@@ -21,5 +22,13 @@ class Helpers {
     (await http.get(Uri.parse(url), headers: {"Accept": "text/plain"}));
     String body = response.body;
     return body;
+  }
+
+  showSnackBar(String content, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(content),
+      ),
+    );
   }
 }

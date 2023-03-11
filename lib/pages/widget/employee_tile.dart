@@ -17,7 +17,6 @@ class EmployeeTile extends StatefulWidget {
   final String bioJoke;
   final VoidCallback onTap;
 
-
   @override
   State<EmployeeTile> createState() => _EmployeeTileState();
 }
@@ -30,31 +29,52 @@ class _EmployeeTileState extends State<EmployeeTile> {
       child: SingleChildScrollView(
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: CachedNetworkImageProvider(widget.photoUrl),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: CircleAvatar(
+                radius: 30,
+                backgroundImage: CachedNetworkImageProvider(widget.photoUrl),
+              ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              children: [
-                Text(
-                  widget.jobId,
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
+            Container(
+              height: 100,
+              width: 250,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'JOB-Id : ${widget.jobId}',
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Name : ${widget.name}',
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'bioJoke : ${widget.bioJoke}',
+                      textAlign: TextAlign.start,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                Text(
-                  widget.name,
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  widget.bioJoke,
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+              ),
             )
           ],
         ),

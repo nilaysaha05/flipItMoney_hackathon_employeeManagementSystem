@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isDescending = false;
   final _employeeBox = Hive.box('employee');
   List<Map<String, dynamic>> _empl = [];
 
@@ -37,57 +38,121 @@ class _HomePageState extends State<HomePage> {
       };
     }).toList();
     setState(() {
-      _empl = data.reversed.toList();
+      _empl = data.toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    //print();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Center(
           child: Text('Employee Management System'),
         ),
       ),
-      body: ListView.builder(
-          itemCount: _empl.length,
-          itemBuilder: (_, i) {
-            final currentItem = _empl[i];
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    EmployeeTile(
-                      photoUrl: currentItem['photoUrl'],
-                      jobId: currentItem['jobId'],
-                      name: currentItem['name'],
-                      bioJoke: currentItem['bioJoke'],
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(
-                              currentItem['name'],
-                              currentItem['jobId'],
-                              currentItem['bioJoke'],
-                              currentItem['salary'],
-                              currentItem['dept'],
-                              currentItem['address'],
-                              currentItem['photoUrl'],
-                            ),
+      body: _empl.isEmpty
+          ? const Center(
+              child: Text(
+                'Press + to add employee data..',
+                style: TextStyle(fontSize: 15),
+              ),
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      isDescending = !isDescending;
+                    });
+                  },
+                  icon: RotatedBox(
+                    quarterTurns: 1,
+                    child: isDescending
+                        ? const Icon(
+                            Icons.arrow_right_rounded,
+                            size: 25,
+                          )
+                        : const Icon(
+                            Icons.arrow_left_rounded,
+                            size: 30,
+                          ),
+                  ),
+                  label: const Text(
+                    'Sort by Name',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Center(
+                  child: Text(
+                    'Employee List',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Divider(),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: _empl.length,
+                      itemBuilder: (_, i) {
+                        final sortedList = _empl
+                          ..sort((a, b) {
+                            String textA = a['name'].toUpperCase();
+                            String textB = b['name'].toUpperCase();
+                            return isDescending
+                                ? textB.compareTo(textA)
+                                : textA.compareTo(textB);
+                          });
+                        final currentItem = sortedList[i];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              EmployeeTile(
+                                photoUrl: currentItem['photoUrl'],
+                                jobId: currentItem['jobId'],
+                                name: currentItem['name'],
+                                bioJoke: currentItem['bioJoke'],
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ProfilePage(
+                                        currentItem['name'],
+                                        currentItem['jobId'],
+                                        currentItem['bioJoke'],
+                                        currentItem['salary'],
+                                        currentItem['dept'],
+                                        currentItem['address'],
+                                        currentItem['photoUrl'],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const Divider(),
+                            ],
                           ),
                         );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Divider(),
-                  ],
+                      }),
                 ),
-              ),
-            );
-          }),
+              ],
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('Add data'),

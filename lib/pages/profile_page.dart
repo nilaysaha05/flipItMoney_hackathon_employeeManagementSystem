@@ -23,9 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text('Profile page'),
-        ),
+        title: const Text('Employee Details page'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
