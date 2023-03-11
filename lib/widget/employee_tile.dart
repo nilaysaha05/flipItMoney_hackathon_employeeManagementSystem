@@ -75,7 +75,7 @@ class _EmployeeTileState extends State<EmployeeTile> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:employee_management_system/pages/form_page.dart';
 import 'package:employee_management_system/pages/profile_page.dart';
-import 'package:employee_management_system/pages/widget/employee_tile.dart';
+import 'package:employee_management_system/widget/employee_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

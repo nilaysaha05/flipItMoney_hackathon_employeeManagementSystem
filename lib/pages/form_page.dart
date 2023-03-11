@@ -92,6 +92,16 @@ class _FormPageState extends State<FormPage> {
                       labelText: 'JOB-ID',
                       border: const OutlineInputBorder(),
                     ),
+                    validator: (value){
+                      if(value!.isEmpty || !RegExp(r'^[a-z A-Z \d]+$').hasMatch(value!))
+                      {
+                        return "Enter correct id";
+
+                      }
+                      else{
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -103,19 +113,37 @@ class _FormPageState extends State<FormPage> {
                       labelText: "Full Name",
                       border: OutlineInputBorder(),
                     ),
+                    validator: (value){
+                      if(value!.isEmpty || !RegExp(r'^[a-z A-Z ]+$').hasMatch(value!))
+                      {
+                        return "Enter correct name";
+
+                      }
+                      else{
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
                     controller: _addressController,
-                    maxLines: 3,
-                    keyboardType: TextInputType.emailAddress,
-                    autofillHints: const [AutofillHints.email],
+                    maxLines: 2,
                     decoration: const InputDecoration(
                       labelText: "Address",
                       border: OutlineInputBorder(),
                     ),
+                    validator: (value){
+                      if(value!.isEmpty )
+                      {
+                        return "Enter correct address";
+
+                      }
+                      else{
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -127,6 +155,16 @@ class _FormPageState extends State<FormPage> {
                       labelText: "Dept.",
                       border: OutlineInputBorder(),
                     ),
+                    validator: (value){
+                      if(value!.isEmpty || !RegExp(r'^[a-z A-Z ]+$').hasMatch(value!))
+                      {
+                        return "Enter correct dept name";
+
+                      }
+                      else{
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -141,6 +179,16 @@ class _FormPageState extends State<FormPage> {
                       labelText: "Salary",
                       border: OutlineInputBorder(),
                     ),
+                    validator: (value){
+                      if(value!.isEmpty || !RegExp(r'^[ \d]+$').hasMatch(value!))
+                      {
+                        return "Enter correct amount";
+
+                      }
+                      else{
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: 24.0,
@@ -151,13 +199,8 @@ class _FormPageState extends State<FormPage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(elevation: 0.0),
                       onPressed: () {
-                        if (_jobIdController.text != '' &&
-                            _nameController.text != '' &&
-                            _addressController.text != '' &&
-                            _deptController.text != '' &&
-                            _salaryController.text != '' &&
-                            photoUrl != '' &&
-                            jokes != '') {
+                        if (_formKey.currentState!.validate()) {
+                          Helpers().showSnackBar('Submitting Data', context);
                           _createEmp({
                             'jobId': _jobIdController.text,
                             'name': _nameController.text,
@@ -172,10 +215,6 @@ class _FormPageState extends State<FormPage> {
                               builder: (context) => const HomePage(),
                             ),
                           );
-                        } else {
-                          Helpers().showSnackBar(
-                              'All fields are required..', context);
-                          return;
                         }
                       },
                       child: const Text('Save Data'),
