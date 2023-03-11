@@ -1,7 +1,15 @@
-import 'package:employee_management_system/home_page.dart';
+import 'package:employee_management_system/pages/home_page.dart';
+import 'package:employee_management_system/pages/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('employee');
+
   runApp(const MyApp());
 }
 
